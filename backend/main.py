@@ -36,3 +36,6 @@ def create_task(title: str, db: Session = Depends(get_db)):
     db.refresh(task)
     return task
   
+@app.get("/debug/tasks")
+def debug_tasks(db: Session = Depends(get_db)):
+    return db.query(Task).all()
