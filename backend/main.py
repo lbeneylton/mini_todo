@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 
 from database import SessionLocal, engine
 from models import Base, Task
@@ -44,8 +45,10 @@ def debug_tasks(db: Session = Depends(get_db)):
 @app.delete("/tasks/{task_id}")
 def delete_task(task_id: int, db: Session = Depends(get_db)):
     task = db.query(Task).filter(Task.id == task_id).first()
-    if task:
-        db.delete(task)
-        db.commit()
-        return {"message": "Task deleted"}
-    return {"message": "Task not found"}
+
+    if not task:
+        raise HTTPException(status_code=404, detail="Task não encontrada")
+
+    db.delete(task)
+    db.commit()
+    return {"message": "Task deletada com sucesso"}

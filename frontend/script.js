@@ -28,7 +28,7 @@ async function loadTasks() {
   } catch (err) {
     console.error("Erro de conexão com a API:", err);
   }
-}
+};
 
 async function addTask() {
   const input = document.getElementById("taskInput");
@@ -53,7 +53,33 @@ async function addTask() {
   } catch (err) {
     console.error("Erro ao enviar task:", err);
   }
+};
+
+
+async function deleteTask() {
+  const input = document.getElementById("taskToDelete");
+  const taskId = input.value.trim();
+
+  if (!taskId) return;
+
+  try {
+    const res = await fetch(`${API_URL}/tasks/${taskId}`, {
+      method: "DELETE"
+    });
+
+    if (!res.ok) {
+      console.error("Erro ao deletar task:", res.status);
+      return;
+    }
+
+    input.value = "";
+    loadTasks();
+
+  } catch (err) {
+    console.error("Erro de conexão ao deletar:", err);
+  }
 }
+
 
 // carrega automaticamente ao abrir a página
 loadTasks();

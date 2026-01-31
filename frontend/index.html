@@ -11,7 +11,11 @@
 
 		<input id="taskInput" placeholder="Nova tarefa" />
 		<button onclick="addTask()">Adicionar</button>
-
+		<br />
+		<br />
+		<label for="taskToDelete">Tarefa a ser apagada:</label>
+		<input id="taskToDelete" type="text" placeholder="ID da tarefa" />
+		<button onclick="deleteTask()">Apagar Tarefa</button>
 		<ul id="taskList"></ul>
 
 		<script src="script.js"></script>
