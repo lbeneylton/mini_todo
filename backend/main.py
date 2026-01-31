@@ -39,3 +39,13 @@ def create_task(title: str, db: Session = Depends(get_db)):
 @app.get("/debug/tasks")
 def debug_tasks(db: Session = Depends(get_db)):
     return db.query(Task).all()
+
+
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id: int, db: Session = Depends(get_db)):
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if task:
+        db.delete(task)
+        db.commit()
+        return {"message": "Task deleted"}
+    return {"message": "Task not found"}
